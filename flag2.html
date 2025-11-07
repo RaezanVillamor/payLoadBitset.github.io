@@ -1,0 +1,33 @@
+<!-- payloadB.html -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Find injected flags</title></head>
+<body>
+  <h1>Injected document.flag* values</h1>
+  <pre id="out">searching...</pre>
+
+  <script>
+    const out = document.getElementById('out');
+    try {
+      // enumerate own properties on document that start with "flag"
+      const found = [];
+      for (const k in document) {
+        if (k && k.startsWith && k.startsWith('flag')) {
+          try {
+            found.push(`${k} = ${document[k]}`);
+          } catch (e) {
+            found.push(`${k} = <error reading>`);
+          }
+        }
+      }
+      if (found.length === 0) {
+        out.textContent = 'none found';
+      } else {
+        out.textContent = found.join('\\n');
+      }
+    } catch (err) {
+      out.textContent = 'error: ' + err;
+    }
+  </script>
+</body>
+</html>
